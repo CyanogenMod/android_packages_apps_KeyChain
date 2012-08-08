@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Catena di chiavi</string>
+    <string name="title_no_certs">Nessun certificato trovato</string>
+    <string name="title_select_cert">Scegliere il certificato</string>
+    <string name="requesting_application">L\'app %s ha richiesto un certificato. Scegliere un certificato permetterà all\'app di usare questa identità con i server ora e in futuro.</string>
+
+    <string name="requesting_server">L\'app ha identificato il server richiedente come %s, ma si dovrebbe concedere all\'app l\'uso del certificato solo se la si considera affidabile.</string>
+
+    <string name="install_new_cert_message">Si possono installare certificati da un file PKCS#12 con estensione %1$s o %2$s posto nella scheda di memoria esterna.</string>
+
+    <string name="install_new_cert_button_label">Installa</string>
+
+    <string name="allow_button">Permetti</string>
+
+    <string name="deny_button">Nega</string>
+
+</resources>

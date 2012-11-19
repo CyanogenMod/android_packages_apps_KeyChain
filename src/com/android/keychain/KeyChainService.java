@@ -112,8 +112,10 @@ public class KeyChainService extends IntentService {
                 throw new NullPointerException("alias == null");
             }
             if (!isKeyStoreUnlocked()) {
-                throw new IllegalStateException("keystore locked");
+                throw new IllegalStateException("keystore is "
+                        + mKeyStore.state().toString());
             }
+
             final int callingUid = getCallingUid();
             if (!hasGrantInternal(mDatabaseHelper.getReadableDatabase(), callingUid, alias)) {
                 throw new IllegalStateException("uid " + callingUid

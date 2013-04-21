@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Sleutelopslag</string>
+    <string name="title_no_certs">Geen sertifikate gevind</string>
+    <string name="title_select_cert">Kies \'n sertifikaat</string>
+    <string name="requesting_application">%s program  het \'n sertifikaat aangevra. Die keuse van \'n sertifikaat sal die program hierdie identiteit deel met bedieners, nou en in die toekoms.</string>
+    <string name="requesting_server">Die program het vasgestel die versoek bediener as %s, maar jy moet slegs die program toegang gee tot jou setifikaat as jy die program vertrou.</string>
+    <string name="install_new_cert_message">Jy kan sertifikate installeer van \'n PKCS #12-Lêer met die uitbruiding %1$s of %2$s van uit jou eksterne skyf.</string>
+    <string name="install_new_cert_button_label">Installeer</string>
+    <string name="allow_button">Toegang</string>
+    <string name="deny_button">Wyer</string>
+</resources>

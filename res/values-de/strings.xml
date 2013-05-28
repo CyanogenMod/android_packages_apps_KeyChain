@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 The CyanogenMod Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Schlüsselbund</string>
+    <string name="title_no_certs">Keine Zertifikate gefunden</string>
+    <string name="title_select_cert">Zertifikat auswählen</string>
+    <string name="requesting_application">Die App %s hat ein Zertifikat angefordert. Das Auswählen des Zertifikats erlaubt der App, sich jetzt und in der Zukunft mit der Identität des Zertifikates auf Servern auszuweisen.</string>
+    <string name="requesting_server">DDie App hat den Server als %s identifiziert. Zugriff auf das Zertifikat sollte allerdings nur vertrauenswürdigen Apps erteilt werden.</string>
+    <string name="install_new_cert_message">Zertifikate können von einer PKCS#12-Datei mit der Erweiterung %1$s oder %2$s, welche sich auf dem externen Speicher befindet, installiert werden.</string>
+    <string name="install_new_cert_button_label">Installieren</string>
+    <string name="allow_button">Zulassen</string>
+    <string name="deny_button">Ablehnen</string>
+</resources>

@@ -356,6 +356,7 @@ public class KeyChainActivity extends Activity {
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_UNLOCK:
+                mState = State.INITIAL;
                 if (mKeyStore.isUnlocked()) {
                     showCertChooserDialog();
                 } else {

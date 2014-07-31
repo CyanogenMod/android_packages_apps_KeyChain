@@ -64,7 +64,7 @@ public class KeyChainActivity extends Activity {
 
     private PendingIntent mSender;
 
-    private static enum State { INITIAL, UNLOCK_REQUESTED };
+    private static enum State { INITIAL, UNLOCK_REQUESTED, UNLOCK_CANCELED };
 
     private State mState;
 
@@ -123,6 +123,11 @@ public class KeyChainActivity extends Activity {
             case UNLOCK_REQUESTED:
                 // we've already asked, but have not heard back, probably just rotated.
                 // wait to hear back via onActivityResult
+                return;
+            case UNLOCK_CANCELED:
+                // User wanted to cancel the request, so exit.
+                mState = State.INITIAL;
+                finish();
                 return;
             default:
                 throw new AssertionError();
@@ -356,12 +361,12 @@ public class KeyChainActivity extends Activity {
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_UNLOCK:
-                mState = State.INITIAL;
                 if (mKeyStore.isUnlocked()) {
+                    mState = State.INITIAL;
                     showCertChooserDialog();
                 } else {
                     // user must have canceled unlock, give up
-                    finish(null);
+                    mState = State.UNLOCK_CANCELED;
                 }
                 return;
             default:

@@ -21,7 +21,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ParceledListSlice;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,18 +34,11 @@ import android.security.IKeyChainService;
 import android.security.KeyChain;
 import android.security.KeyStore;
 import android.util.Log;
-import com.android.internal.util.ParcelableString;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import com.android.org.conscrypt.TrustedCertificateStore;
 
@@ -252,80 +244,6 @@ public class KeyChainService extends IntentService {
             checkSystemCaller();
             setGrantInternal(mDatabaseHelper.getWritableDatabase(), uid, alias, value);
             broadcastStorageChange();
-        }
-
-        @Override
-        public ParceledListSlice<ParcelableString> getUserCaAliases() {
-            synchronized (mTrustedCertificateStore) {
-                Set<String> aliasSet = mTrustedCertificateStore.userAliases();
-                List<ParcelableString> aliases = new ArrayList<ParcelableString>(aliasSet.size());
-                for (String alias : aliasSet) {
-                    ParcelableString parcelableString = new ParcelableString();
-                    parcelableString.string = alias;
-                    aliases.add(parcelableString);
-                }
-                return new ParceledListSlice<ParcelableString>(aliases);
-            }
-        }
-
-        @Override
-        public ParceledListSlice<ParcelableString> getSystemCaAliases() {
-            synchronized (mTrustedCertificateStore) {
-                Set<String> aliasSet = mTrustedCertificateStore.allSystemAliases();
-                List<ParcelableString> aliases = new ArrayList<ParcelableString>(aliasSet.size());
-                for (String alias : aliasSet) {
-                    ParcelableString parcelableString = new ParcelableString();
-                    parcelableString.string = alias;
-                    aliases.add(parcelableString);
-                }
-                return new ParceledListSlice<ParcelableString>(aliases);
-            }
-        }
-
-        @Override
-        public boolean containsCaAlias(String alias) {
-            return mTrustedCertificateStore.containsAlias(alias);
-        }
-
-        @Override
-        public byte[] getEncodedCaCertificate(String alias, boolean includeDeletedSystem) {
-            synchronized (mTrustedCertificateStore) {
-                X509Certificate certificate = (X509Certificate) mTrustedCertificateStore
-                        .getCertificate(alias, includeDeletedSystem);
-                if (certificate == null) {
-                    return null;
-                }
-                try {
-                    return certificate.getEncoded();
-                } catch (CertificateEncodingException e) {
-                    return null;
-                }
-            }
-        }
-
-        @Override
-        public List<String> getCaCertificateChainAliases(String rootAlias,
-                boolean includeDeletedSystem) {
-            synchronized (mTrustedCertificateStore) {
-                X509Certificate root = (X509Certificate) mTrustedCertificateStore.getCertificate(
-                        rootAlias, includeDeletedSystem);
-                try {
-                    List<X509Certificate> chain = mTrustedCertificateStore.getCertificateChain(
-                            root);
-                    List<String> aliases = new ArrayList<String>(chain.size());
-                    final int n = chain.size();
-                    for (int i = 0; i < n; ++i) {
-                        String alias = mTrustedCertificateStore.getCertificateAlias(chain.get(i),
-                                true);
-                        if (alias != null) {
-                            aliases.add(alias);
-                        }
-                    }
-                    return aliases;
-                } catch (CertificateException e) {
-                    return Collections.emptyList();
-                }
-            }
         }
     };
 

@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Process;
+import android.os.UserHandle;
 import android.os.UserManager;
 import android.security.Credentials;
 import android.security.IKeyChainService;
@@ -94,9 +95,11 @@ public class KeyChainService extends IntentService {
             if (!mKeyStore.grant(keystoreAlias, uid)) {
                 return null;
             }
+            final int userHandle = UserHandle.getUserId(uid);
+            final int systemUidForUser = UserHandle.getUid(userHandle, Process.SYSTEM_UID);
 
             final StringBuilder sb = new StringBuilder();
-            sb.append(Process.SYSTEM_UID);
+            sb.append(systemUidForUser);
             sb.append('_');
             sb.append(keystoreAlias);
 

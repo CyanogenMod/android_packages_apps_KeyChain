@@ -149,6 +149,26 @@ public class KeyChainService extends IntentService {
             broadcastStorageChange();
         }
 
+        @Override public boolean installKeyPair(byte[] privateKey, byte[] userCertificate,
+                String alias) {
+            checkCertInstallerOrSystemCaller();
+            if (!mKeyStore.importKey(Credentials.USER_PRIVATE_KEY + alias, privateKey, -1,
+                    KeyStore.FLAG_ENCRYPTED)) {
+                Log.e(TAG, "Failed to import private key " + alias);
+                return false;
+            }
+            if (!mKeyStore.put(Credentials.USER_CERTIFICATE + alias, userCertificate, -1,
+                    KeyStore.FLAG_ENCRYPTED)) {
+                Log.e(TAG, "Failed to import user certificate " + userCertificate);
+                if (!mKeyStore.delKey(Credentials.USER_PRIVATE_KEY + alias)) {
+                    Log.e(TAG, "Failed to delete private key after certificate importing failed");
+                }
+                return false;
+            }
+            broadcastStorageChange();
+            return true;
+        }
+
         private X509Certificate parseCertificate(byte[] bytes) throws CertificateException {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(bytes));

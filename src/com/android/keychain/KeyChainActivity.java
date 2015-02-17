@@ -17,6 +17,7 @@
 package com.android.keychain;
 
 import android.app.Activity;
+import android.app.ActivityManagerNative;
 import android.app.admin.IDevicePolicyManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -182,10 +183,10 @@ public class KeyChainActivity extends Activity {
         String alias = getIntent().getStringExtra(KeyChain.EXTRA_ALIAS);
 
         try {
-            devicePolicyManager.choosePrivateKeyAlias(host, port, url, alias, callback);
+            int uid = ActivityManagerNative.getDefault().getLaunchedFromUid(getActivityToken());
+            devicePolicyManager.choosePrivateKeyAlias(uid, host, port, url, alias, callback);
         } catch (RemoteException e) {
-            Log.e(TAG, "Could not bind to DevicePolicyManagerService", e);
-
+            Log.e(TAG, "Unable to request alias from DevicePolicyManager", e);
             // Proceed without a suggested alias.
             try {
                 callback.alias(null);

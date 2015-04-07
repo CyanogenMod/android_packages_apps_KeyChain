@@ -387,6 +387,7 @@ public class KeyChainActivity extends Activity {
                         getIntent().getIBinderExtra(KeyChain.EXTRA_RESPONSE));
         if (keyChainAliasResponse != null) {
             new ResponseSender(keyChainAliasResponse, alias).execute();
+            return;
         }
         finish();
     }

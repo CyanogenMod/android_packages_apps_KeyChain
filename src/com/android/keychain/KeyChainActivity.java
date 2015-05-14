@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -177,14 +178,11 @@ public class KeyChainActivity extends Activity {
         IDevicePolicyManager devicePolicyManager = IDevicePolicyManager.Stub.asInterface(
                 ServiceManager.getService(Context.DEVICE_POLICY_SERVICE));
 
-        String host = getIntent().getStringExtra(KeyChain.EXTRA_HOST);
-        int port = getIntent().getIntExtra(KeyChain.EXTRA_PORT, -1);
-        String url = getIntent().getStringExtra(KeyChain.EXTRA_URL);
+        Uri uri = getIntent().getParcelableExtra(KeyChain.EXTRA_URI);
         String alias = getIntent().getStringExtra(KeyChain.EXTRA_ALIAS);
-
         try {
             int uid = ActivityManagerNative.getDefault().getLaunchedFromUid(getActivityToken());
-            devicePolicyManager.choosePrivateKeyAlias(uid, host, port, url, alias, callback);
+            devicePolicyManager.choosePrivateKeyAlias(uid, uri, alias, callback);
         } catch (RemoteException e) {
             Log.e(TAG, "Unable to request alias from DevicePolicyManager", e);
             // Proceed without a suggested alias.
@@ -283,17 +281,11 @@ public class KeyChainActivity extends Activity {
         }
         String appMessage = String.format(res.getString(R.string.requesting_application),
                                           applicationLabel);
-
         String contextMessage = appMessage;
-        String host = getIntent().getStringExtra(KeyChain.EXTRA_HOST);
-        if (host != null) {
-            String hostString = host;
-            int port = getIntent().getIntExtra(KeyChain.EXTRA_PORT, -1);
-            if (port != -1) {
-                hostString += ":" + port;
-            }
+        Uri uri = getIntent().getParcelableExtra(KeyChain.EXTRA_URI);
+        if (uri != null) {
             String hostMessage = String.format(res.getString(R.string.requesting_server),
-                                               hostString);
+                                               uri.getAuthority());
             if (contextMessage == null) {
                 contextMessage = hostMessage;
             } else {

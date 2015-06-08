@@ -196,7 +196,7 @@ public class KeyChainActivity extends Activity {
 
     private class AliasLoader extends AsyncTask<Void, Void, CertificateAdapter> {
         @Override protected CertificateAdapter doInBackground(Void... params) {
-            String[] aliasArray = mKeyStore.saw(Credentials.USER_PRIVATE_KEY);
+            String[] aliasArray = mKeyStore.list(Credentials.USER_PRIVATE_KEY);
             List<String> aliasList = ((aliasArray == null)
                                       ? Collections.<String>emptyList()
                                       : Arrays.asList(aliasArray));

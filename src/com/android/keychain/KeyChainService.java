@@ -152,6 +152,11 @@ public class KeyChainService extends IntentService {
         @Override public boolean installKeyPair(byte[] privateKey, byte[] userCertificate,
                 String alias) {
             checkCertInstallerOrSystemCaller();
+            if (!mKeyStore.isUnlocked()) {
+                Log.e(TAG, "Keystore is " + mKeyStore.state().toString() + ". Credentials cannot"
+                        + " be installed until device is unlocked");
+                return false;
+            }
             if (!mKeyStore.importKey(Credentials.USER_PRIVATE_KEY + alias, privateKey, -1,
                     KeyStore.FLAG_ENCRYPTED)) {
                 Log.e(TAG, "Failed to import private key " + alias);

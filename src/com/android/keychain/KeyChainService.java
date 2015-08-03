@@ -174,6 +174,11 @@ public class KeyChainService extends IntentService {
             return true;
         }
 
+        @Override public boolean removeKeyPair(String alias) {
+            checkCertInstallerOrSystemCaller();
+            return Credentials.deleteAllTypesForAlias(mKeyStore, alias);
+        }
+
         private X509Certificate parseCertificate(byte[] bytes) throws CertificateException {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(bytes));

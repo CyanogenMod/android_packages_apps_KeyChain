@@ -181,8 +181,7 @@ public class KeyChainActivity extends Activity {
         Uri uri = getIntent().getParcelableExtra(KeyChain.EXTRA_URI);
         String alias = getIntent().getStringExtra(KeyChain.EXTRA_ALIAS);
         try {
-            int uid = ActivityManagerNative.getDefault().getLaunchedFromUid(getActivityToken());
-            devicePolicyManager.choosePrivateKeyAlias(uid, uri, alias, callback);
+            devicePolicyManager.choosePrivateKeyAlias(mSenderUid, uri, alias, callback);
         } catch (RemoteException e) {
             Log.e(TAG, "Unable to request alias from DevicePolicyManager", e);
             // Proceed without a suggested alias.

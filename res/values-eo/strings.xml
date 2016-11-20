@@ -21,6 +21,7 @@
   <!-- Used at top of dialog to identify requesting server (may be host:port or just host)-->
   <!-- Label of button to send the user to the CertInstaller to install a certificate (arguments are constants for .pfx and .p12) -->
   <!-- Label of button to send the user to the CertInstaller to install a certificate -->
+  <string name="install_new_cert_button_label">Instali</string>
   <!-- Label of button to send the allow the application certificate request -->
   <!-- Label of button to send the deny the application certificate request -->
 </resources>
